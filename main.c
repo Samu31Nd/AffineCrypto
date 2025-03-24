@@ -21,7 +21,7 @@ int main(int argc, char *argv[]) {
 
     mcd = extendedEuclides(alfa, n, &x, &y);
     if (mcd != 1) {
-      sprintf(auxCharGeneral,"MCD(%d,%d) != 1, ingresa otro numero!", alfa, n);
+      sprintf(auxCharGeneral,"MCD(%d,%d) != 1, no son coprimos, ingresa otro numero!", alfa, n);
       showErrorMessage(auxCharGeneral);
     }
 
@@ -29,21 +29,25 @@ int main(int argc, char *argv[]) {
   
   if( x < 0) x+= 26;
 
-  char results[6][256];
+  char results[8][256];
   sprintf(results[0],"EL ALGORITMO EXTENDIDO DE EUCLIDES OBTUVO:\n");
   sprintf(results[1],"(%d*%d) + (%d*%d) = %d", alfa, x, n, y, mcd);
-  sprintf(results[2],"FORMULA DE DESCIFRADO 1:");
-  sprintf(results[3],"%d(C + %d) mod %d",x,n-beta,n);
-  sprintf(results[4],"FORMULA DE DESCIFRADO 2:");
-  sprintf(results[5],"(%dC + %d) mod %d",x,(x*(n-beta))%n,n);
+  sprintf(results[2], "FORMULA DE CIFRADO:");
+  sprintf(results[3], "(%dp + %d) mod %d",alfa,beta,n);
+  sprintf(results[4],"FORMULA DE DESCIFRADO 1:");
+  sprintf(results[5],"%d(C + %d) mod %d",x,n-beta,n);
+  sprintf(results[6],"FORMULA DE DESCIFRADO 2:");
+  sprintf(results[7],"(%dC + %d) mod %d",x,(x*(n-beta))%n,n);
 
-  showResults(6,
+  showResults(8,
               results[0],
               results[1],
               results[2],
               results[3],
               results[4],
-              results[5]);
+              results[5],
+              results[6],
+              results[7]);
 
   endwin();
 

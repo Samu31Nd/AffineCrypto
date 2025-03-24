@@ -36,6 +36,7 @@ char *errorTitle[] = {" _______  ______    ______    _______  ______   ",
 
 void showErrorMessage(const char *errorMsg) {
   for (int i = TIMEOUT_ERROR_MESSAGE; i > 0; i--) {
+    getmaxyx(stdscr, h, w);
     clear();
     for (int i = 0; i < 7; i++) {
       attron(COLOR_PAIR(2));
@@ -53,7 +54,15 @@ void showErrorMessage(const char *errorMsg) {
 
 int showResults(int no_args, ...) {
   va_list args;
+  const char *argArray[no_args];
   va_start(args, no_args);
+  const char *descripcion = va_arg(args, const char *);
+  for (int i = 0; i < no_args-1; i++)
+    argArray[i] = va_arg(args, const char *);
+
+  char c = -1;
+  do {
+  getmaxyx(stdscr, h, w);
   clear();
   // print title
   attron(COLOR_PAIR(1));
@@ -62,16 +71,15 @@ int showResults(int no_args, ...) {
   }
   attroff(COLOR_PAIR(1));
   attron(A_BOLD);
-  const char *descripcion = va_arg(args, const char *);
   mvprintw(h >> 1, (w - strlen(descripcion)) >> 1, "%s", descripcion);
   attroff(A_BOLD);
 
   for (int i = 0; i < no_args-1; i++) {
-    const char *arg = va_arg(args, const char *);
-    mvprintw((h >> 1)+i+1, (w - strlen(arg)) >> 1, "%s", arg);
+    mvprintw((h >> 1)+i+1, (w - strlen(argArray[i])) >> 1, "%s", argArray[i]);
   }
   refresh();
-  getch();
+  } while((c = getch()) < 0);
+
   return 0;
 }
 
@@ -122,7 +130,7 @@ int getNumber(const char *description, int *number) {
       mvprintw(3 + i, (w - 78) >> 1, "%s", programTitle[i]);
     }
     attroff(COLOR_PAIR(1));
-    mvprintw(h - 3, 2, "Press ESC to end program.");
+    mvprintw(h - 3, w-28, "Press ESC to end program.");
     attron(A_BOLD);
     mvprintw((h >> 1) + 4, (w >> 1) - 5, "%s", description);
     attroff(A_BOLD);
