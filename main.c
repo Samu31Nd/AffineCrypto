@@ -29,7 +29,7 @@ int main(int argc, char *argv[]) {
   } while (mcd != 1);
   
   if( x < 0 ) x+= n;
-  if( y < 0 ) x+= n;
+  if( y < 0 ) y+= n;
   int minusBeta = (n-beta)%n;
   if (minusBeta < 0) minusBeta += n;
 
@@ -49,7 +49,7 @@ int main(int argc, char *argv[]) {
   sprintf(results[4],"FORMULA DE DESCIFRADO 1:");
   sprintf(results[5],"p = %d(C + %d) mod %d",x,minusBeta,n);
   sprintf(results[6],"FORMULA DE DESCIFRADO 2:");
-  sprintf(results[7],"p = (%dC + %d) mod %d",x,(x*(minusBeta))%n,n);
+  sprintf(results[7],"p = (%dC + %lld) mod %d",x,(((long long)x)*((long long)minusBeta))%n,n);
 
 
   showResults(9,
